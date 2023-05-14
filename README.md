@@ -1,32 +1,49 @@
 ## Aplikasi Pemesanan Cafe Bahagia
+
 Aplikasi Pemesanan Cafe Bahagia menggunakan Codeigniter
 
 ## Requirements
+
 - Xampp / Executable PHP
-https://www.apachefriends.org/download.html / https://windows.php.net/
+  https://www.apachefriends.org/download.html / https://windows.php.net/
 - Code Editor
-https://code.visualstudio.com/download
+  https://code.visualstudio.com/download
 - Git
-https://git-scm.com/downloads
+  https://git-scm.com/downloads
 
 ## Tech Stacks
- - Codeigniter 3.0.6 **(Upgradeable)**
- - Apache/2.4.38
- - PHP Version 5.6.40
- - 10.1.38-MariaDB
+
+- Codeigniter 3.0.6 **(Upgradeable)**
+- Apache/2.4.38
+- PHP Version 5.6.40
+- 10.1.38-MariaDB
 
 ## Installation
- 1. Git Clone
- `https://github.com/nutwreck/cafebahagia.git`
- 2. Import database cafe.sql
- `jalankan sql di database anda`
- 3. Access site
-`http://localhost/cafebahagia`
+
+1.  Git Clone
+    `https://github.com/nutwreck/cafebahagia.git`
+2.  Import database cafe.sql
+    `jalankan sql di database anda`
+3.  Access site
+    `http://localhost/cafebahagia`
 
 ## Port
- - **apache** - `:80`
- - **mysql** - `:3306`
+
+- **apache** - `:80`
+- **mysql** - `:3306`
 
 ## References
- - Datatables
+
+- Datatables
   https://datatables.net/
+
+## Access
+
+1.  Superadmin
+    `username : admin / password : admin`
+2.  Kasir
+    `username : kasir / password : kasir`
+3.  Inventory
+    `username : inventory / password : inventory`
+4.  Keuangan
+    `username : keuangan / password : keuangan`

@@ -66,7 +66,6 @@ if($level == 'admin' OR $level == 'kasir' OR $level == 'keuangan')
 					"sNext": "Next"
 				}
 			},
-			"aaSorting": [[ 0, "desc" ]],
 			"columnDefs": [ 
 				{
 					"targets": 'no-sort',

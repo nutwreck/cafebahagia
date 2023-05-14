@@ -62,7 +62,7 @@ class M_pelanggan extends CI_Model
 			5 => 'a.`waktu_input`'
 		);
 
-		$sql .= " ORDER BY ".$columns_order_by[$column_order]." ".$column_dir.", nomor ";
+		$sql .= " ORDER BY ".$columns_order_by[$column_order]." ".$column_dir;
 		$sql .= " LIMIT ".$limit_start." ,".$limit_length." ";
 		
 		$data['query'] = $this->db->query($sql);

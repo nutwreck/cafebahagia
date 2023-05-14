@@ -501,8 +501,8 @@ class Penjualan extends MY_Controller
 			{
 				$this->load->library('form_validation');
 				$this->form_validation->set_rules('nama','Nama','trim|required|alpha_spaces|max_length[40]');
-				$this->form_validation->set_rules('alamat','Alamat','trim|required|max_length[1000]');
-				$this->form_validation->set_rules('telepon','Telepon / Handphone','trim|required|numeric|max_length[40]');
+				$this->form_validation->set_rules('alamat','Alamat','trim|max_length[1000]');
+				$this->form_validation->set_rules('telepon','Telepon / Handphone','trim|numeric|max_length[40]');
 				$this->form_validation->set_rules('info','Info Tambahan Lainnya','trim|max_length[1000]');
 
 				$this->form_validation->set_message('alpha_spaces','%s harus alphabet !');
@@ -564,8 +564,8 @@ class Penjualan extends MY_Controller
 					{
 						$this->load->library('form_validation');
 						$this->form_validation->set_rules('nama','Nama','trim|required|alpha_spaces|max_length[40]');
-						$this->form_validation->set_rules('alamat','Alamat','trim|required|max_length[1000]');
-						$this->form_validation->set_rules('telepon','Telepon / Handphone','trim|required|numeric|max_length[40]');
+						$this->form_validation->set_rules('alamat','Alamat','trim|max_length[1000]');
+						$this->form_validation->set_rules('telepon','Telepon / Handphone','trim|numeric|max_length[40]');
 						$this->form_validation->set_rules('info','Info Tambahan Lainnya','trim|max_length[1000]');
 
 						$this->form_validation->set_message('alpha_spaces','%s harus alphabet !');

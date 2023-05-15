@@ -10,11 +10,13 @@ $level = $this->session->userdata('ap_level');
 		<div class="panel-body">
 			<h5><i class='fa fa-cube fa-fw'></i> Produk <i class='fa fa-angle-right fa-fw'></i> Data Produk</h5>
 			<hr />
-			<div style="margin-bottom:10px;">
-				<div>
-					<font class="bg-info"><b>Informasi : Data warna merah adalah produk kadaluarsa</b></font>
+			<?php if ($level != "kasir") { ?>
+				<div style="margin-bottom:10px;">
+					<div>
+						<font class="bg-info"><b>Informasi : Data warna merah adalah produk kadaluarsa</b></font>
+					</div>
 				</div>
-			</div>
+			<?php } ?>
 			<div class='table-responsive'>
 				<link rel="stylesheet" href="<?php echo config_item('plugin'); ?>datatables/css/dataTables.bootstrap.css" />
 				<table id="my-grid" class="table table-striped table-bordered">
@@ -105,9 +107,7 @@ if ($level == 'admin' or $level == 'inventory') {
 			"createdRow": function(row, data, dataIndex) {
 				var today = new Date();
 				var rowDate = new Date(data[3]); // kolom 3 pada data adalah tanggal
-				if (rowDate.getDate() == today.getDate() &&
-					rowDate.getMonth() == today.getMonth() &&
-					rowDate.getFullYear() == today.getFullYear()) {
+				if (rowDate < today) {
 					$('td', row).addClass('bg-danger');
 				}
 			}

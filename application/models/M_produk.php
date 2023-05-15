@@ -3,6 +3,8 @@ class M_produk extends CI_Model
 {
 	function fetch_data_produk($like_value = NULL, $column_order = NULL, $column_dir = NULL, $limit_start = NULL, $limit_length = NULL)
 	{
+		$x = $this->session->userdata('ap_level');
+
 		$sql = "
 			SELECT 
 				(@row:=@row+1) AS nomor,
@@ -20,6 +22,10 @@ class M_produk extends CI_Model
 				, (SELECT @row := 0) r WHERE 1=1 
 				AND a.`dihapus` = 'tidak' 
 		";
+
+		if ($x == "kasir") {
+			$sql .= " AND a.`expired_date` > NOW() ";
+		}
 		
 		$data['totalData'] = $this->db->query($sql)->num_rows();
 		

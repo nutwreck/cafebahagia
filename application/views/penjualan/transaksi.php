@@ -79,7 +79,7 @@ if ($level !== 'admin') {
 								<div class="form-group">
 									<label class="col-sm-6 control-label">Bayar (F8)</label>
 									<div class="col-sm-6">
-										<input type='text' name='cash' id='UangCash' class='form-control' onkeypress='return check_int(event)'>
+										<input type='text' name='cash' id='UangCash' class='form-control' onkeypress='return check_int(event)' oninput='formatCurrency(this)'>
 									</div>
 								</div>
 								<div class="form-group">
@@ -199,6 +199,7 @@ if ($level !== 'admin') {
 
 <link rel="stylesheet" type="text/css" href="<?php echo config_item('plugin'); ?>datetimepicker/jquery.datetimepicker.css" />
 <script src="<?php echo config_item('plugin'); ?>datetimepicker/jquery.datetimepicker.js"></script>
+<script src="<?php echo config_item('plugin'); ?>numeral/numeral.min.js"></script>
 <script>
 	$('#tanggal').datetimepicker({
 		lang: 'en',
@@ -451,7 +452,7 @@ if ($level !== 'admin') {
 					$('#ModalGue').modal('show');
 
 					$('#TabelTransaksi tbody tr:eq(' + Indexnya + ') td:nth-child(5) input').val('1');
-					
+
 					//Jadikan qty 1 dan hitung ulang
 					var SubTotal = parseInt(Harga) * 1;
 					if (SubTotal > 0) {
@@ -505,7 +506,7 @@ if ($level !== 'admin') {
 	}
 
 	function HitungTotalKembalian() {
-		var Cash = $('#UangCash').val();
+		var Cash = $('#UangCash').val().replace(/[^\d]/g, '');
 		var TotalBayar = $('#TotalBayarHidden').val();
 
 		if (parseInt(Cash) >= parseInt(TotalBayar)) {
@@ -556,32 +557,55 @@ if ($level !== 'admin') {
 
 		if (charCode == 121) //F10
 		{
-			$('.modal-dialog').removeClass('modal-lg');
-			$('.modal-dialog').addClass('modal-sm');
-			$('#ModalHeader').html('Konfirmasi');
-			$('#ModalContent').html("Apakah anda yakin ingin menyimpan transaksi ini ?");
-			$('#ModalFooter').html("<button type='button' class='btn btn-primary' id='SimpanTransaksi'>Ya, saya yakin</button><button type='button' class='btn btn-default' data-dismiss='modal'>Batal</button>");
-			$('#ModalGue').modal('show');
+			var Cash = $('#UangCash').val().replace(/[^\d]/g, '');
+			var TotalBayar = $('#TotalBayarHidden').val();
 
-			setTimeout(function() {
-				$('button#SimpanTransaksi').focus();
-			}, 500);
+			if (parseInt(Cash) < parseInt(TotalBayar)) {
+				$('.modal-dialog').removeClass('modal-lg');
+				$('.modal-dialog').addClass('modal-sm');
+				$('#ModalHeader').html('Informasi');
+				$('#ModalContent').html("Pembayaran Kurang!");
+				$('#ModalFooter').html("<button type='button' class='btn btn-primary' data-dismiss='modal' autofocus>Ok</button>");
+				$('#ModalGue').modal('show');
+			} else {
+				$('.modal-dialog').removeClass('modal-lg');
+				$('.modal-dialog').addClass('modal-sm');
+				$('#ModalHeader').html('Konfirmasi');
+				$('#ModalContent').html("Apakah anda yakin ingin menyimpan transaksi ini ?");
+				$('#ModalFooter').html("<button type='button' class='btn btn-primary' id='SimpanTransaksi'>Ya, saya yakin</button><button type='button' class='btn btn-default' data-dismiss='modal'>Batal</button>");
+				$('#ModalGue').modal('show');
+
+				setTimeout(function() {
+					$('button#SimpanTransaksi').focus();
+				}, 500);
+			}
 
 			return false;
 		}
 	});
 
 	$(document).on('click', '#Simpann', function() {
-		$('.modal-dialog').removeClass('modal-lg');
-		$('.modal-dialog').addClass('modal-sm');
-		$('#ModalHeader').html('Konfirmasi');
-		$('#ModalContent').html("Apakah anda yakin ingin menyimpan transaksi ini ?");
-		$('#ModalFooter').html("<button type='button' class='btn btn-primary' id='SimpanTransaksi'>Ya, saya yakin</button><button type='button' class='btn btn-default' data-dismiss='modal'>Batal</button>");
-		$('#ModalGue').modal('show');
+		var Cash = $('#UangCash').val().replace(/[^\d]/g, '');
+		var TotalBayar = $('#TotalBayarHidden').val();
 
-		setTimeout(function() {
-			$('button#SimpanTransaksi').focus();
-		}, 500);
+		if (parseInt(Cash) < parseInt(TotalBayar)) {
+			$('.modal-dialog').removeClass('modal-lg');
+			$('.modal-dialog').addClass('modal-sm');
+			$('#ModalHeader').html('Informasi');
+			$('#ModalContent').html("Pembayaran Kurang!");
+			$('#ModalFooter').html("<button type='button' class='btn btn-primary' data-dismiss='modal' autofocus>Ok</button>");
+			$('#ModalGue').modal('show');
+		} else {
+			$('.modal-dialog').removeClass('modal-lg');
+			$('.modal-dialog').addClass('modal-sm');
+			$('#ModalHeader').html('Konfirmasi');
+			$('#ModalContent').html("Apakah anda yakin ingin menyimpan transaksi ini ?");
+			$('#ModalFooter').html("<button type='button' class='btn btn-primary' id='SimpanTransaksi'>Ya, saya yakin</button><button type='button' class='btn btn-default' data-dismiss='modal'>Batal</button>");
+			$('#ModalGue').modal('show');
+			setTimeout(function() {
+				$('button#SimpanTransaksi').focus();
+			}, 500);
+		}
 	});
 
 	$(document).on('click', 'button#SimpanTransaksi', function() {
@@ -598,7 +622,7 @@ if ($level !== 'admin') {
 		FormData += "&id_kasir=" + $('#id_kasir').val();
 		FormData += "&id_pelanggan=" + $('#id_pelanggan').val();
 		FormData += "&" + $('#TabelTransaksi tbody input').serialize();
-		FormData += "&cash=" + $('#UangCash').val();
+		FormData += "&cash=" + $('#UangCash').val().replace(/[^\d]/g, '');
 		FormData += "&catatan=" + encodeURI($('#catatan').val());
 		FormData += "&grand_total=" + $('#TotalBayarHidden').val();
 
@@ -636,13 +660,13 @@ if ($level !== 'admin') {
 
 	function CetakStruk() {
 		if ($('#TotalBayarHidden').val() > 0) {
-			if ($('#UangCash').val() !== '') {
+			if ($('#UangCash').val().replace(/[^\d]/g, '') !== '') {
 				var FormData = "nomor_nota=" + encodeURI($('#nomor_nota').val());
 				FormData += "&tanggal=" + encodeURI($('#tanggal').val());
 				FormData += "&id_kasir=" + $('#id_kasir').val();
 				FormData += "&id_pelanggan=" + $('#id_pelanggan').val();
 				FormData += "&" + $('#TabelTransaksi tbody input').serialize();
-				FormData += "&cash=" + $('#UangCash').val();
+				FormData += "&cash=" + $('#UangCash').val().replace(/[^\d]/g, '');
 				FormData += "&catatan=" + encodeURI($('#catatan').val());
 				FormData += "&grand_total=" + $('#TotalBayarHidden').val();
 
@@ -664,6 +688,13 @@ if ($level !== 'admin') {
 			$('#ModalGue').modal('show');
 
 		}
+	}
+
+	function formatCurrency(input) {
+		let value = input.value.replace(/[^\d]/g, '');
+		value = Number(value);
+		value = numeral(value).format('0,0');
+		input.value = value;
 	}
 </script>
 
